@@ -18,6 +18,7 @@ import { Evented } from 'leaflet/src/core/Events';
 import * as DomEvent from 'leaflet/src/dom/DomEvent';
 import { setOptions, isArray } from 'leaflet/src/core/Util'
 import * as DomUtil from 'leaflet/src/dom/DomUtil';
+import LatLng from 'leaflet/src/geo/LatLng';
 import LatLngBounds from 'leaflet/src/geo/LatLngBounds';
 
 import corslite  from '@mapbox/corslite';
@@ -237,7 +238,7 @@ export default Control.extend({
       // {lon: 30, lat: 50}
       // {lat: 50, lng: 30}
       // L.latLng(50, 30)
-      var latlng = L.latLng(focus);
+      var latlng = new LatLng(focus);
       params['focus.point.lat'] = latlng.lat;
       params['focus.point.lon'] = latlng.lng;
     }
