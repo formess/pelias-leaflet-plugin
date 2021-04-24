@@ -18,8 +18,8 @@ import { Evented } from 'leaflet/src/core/Events';
 import * as DomEvent from 'leaflet/src/dom/DomEvent';
 import { setOptions, isArray } from 'leaflet/src/core/Util'
 import * as DomUtil from 'leaflet/src/dom/DomUtil';
-import LatLng from 'leaflet/src/geo/LatLng';
-import LatLngBounds from 'leaflet/src/geo/LatLngBounds';
+import { LatLng } from 'leaflet/src/geo/LatLng';
+import { LatLngBounds } from 'leaflet/src/geo/LatLngBounds';
 import { GeoJSON, coordsToLatLng } from 'leaflet/src/layer/GeoJSON';
 import { Marker } from 'leaflet/src/layer/marker/Marker.js';
 import { Popup } from 'leaflet/src/layer/Popup.js';
