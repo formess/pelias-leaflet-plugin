@@ -20,7 +20,7 @@ import { setOptions, isArray } from 'leaflet/src/core/Util'
 import * as DomUtil from 'leaflet/src/dom/DomUtil';
 import LatLng from 'leaflet/src/geo/LatLng';
 import LatLngBounds from 'leaflet/src/geo/LatLngBounds';
-import { GeoJSON } from 'leaflet/src/layer/GeoJSON';
+import { GeoJSON, coordsToLatLng } from 'leaflet/src/layer/GeoJSON';
 import { Marker } from 'leaflet/src/layer/marker/Marker.js';
 import { touch as hasTouch } from 'leaflet/src/core/Browser.js';
 
@@ -628,7 +628,7 @@ export default Control.extend({
   },
 
   setSelectedResult: function (selected, originalEvent) {
-    var latlng = GeoJSON.coordsToLatLng(selected.feature.geometry.coordinates);
+    var latlng = coordsToLatLng(selected.feature.geometry.coordinates);
     this._input.value = selected.textContent || selected.innerText;
     var layer = selected.feature.properties.layer;
     // "point" layers (venue and address in Pelias) must always display markers
@@ -843,7 +843,7 @@ export default Control.extend({
               self.fitBoundingBox(selected.feature.bbox);
             } else {
               self.removeMarkers();
-              self.showMarker(selected.innerHTML, GeoJSON.coordsToLatLng(selected.feature.geometry.coordinates));
+              self.showMarker(selected.innerHTML, coordsToLatLng(selected.feature.geometry.coordinates));
             }
           }
         };
@@ -899,7 +899,7 @@ export default Control.extend({
             this._input.value = highlighted.textContent || highlighted.innerText;
             this.fire('highlight', {
               originalEvent: e,
-              latlng: GeoJSON.coordsToLatLng(highlighted.feature.geometry.coordinates),
+              latlng: coordsToLatLng(highlighted.feature.geometry.coordinates),
               feature: highlighted.feature
             });
 
@@ -925,7 +925,7 @@ export default Control.extend({
             this._input.value = highlighted.textContent || highlighted.innerText;
             this.fire('highlight', {
               originalEvent: e,
-              latlng: GeoJSON.coordsToLatLng(highlighted.feature.geometry.coordinates),
+              latlng: coordsToLatLng(highlighted.feature.geometry.coordinates),
               feature: highlighted.feature
             });
 
