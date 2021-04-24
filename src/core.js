@@ -51,11 +51,6 @@ export default Control.extend({
 
   version: VERSION,
 
-  // L.Evented is present in Leaflet v1+
-  // L.Mixin.Events is legacy; was deprecated in Leaflet v1 and will start
-  // logging deprecation warnings in console in v1.1
-  includes: L.Evented ? L.Evented.prototype : L.Mixin.Events,
-
   options: {
     position: 'topleft',
     attribution: 'Geocoding by <a href="https://geocode.earth">Geocode Earth</a>',
