@@ -10,14 +10,14 @@
 
 // Polyfill console and its methods, if missing. (As it tends to be on IE8 (or lower))
 // when the developer console is not open.
-require('console-polyfill');
+import 'console-polyfill';
 
-var L = require('leaflet');
-var corslite = require('@mapbox/corslite');
+import L from 'leaflet';
+import corslite  from '@mapbox/corslite';
 
 // Import utility functions. TODO: switch to Lodash (no IE8 support) in v2
-var throttle = require('./utils/throttle');
-var escapeRegExp = require('./utils/escapeRegExp');
+import throttle from './utils/throttle';
+import escapeRegExp from './utils/escapeRegExp';
 
 var VERSION = '1.9.4';
 var MINIMUM_INPUT_LENGTH_FOR_AUTOCOMPLETE = 1;
@@ -44,7 +44,7 @@ var TEXT_STRINGS = {
   'ERROR_DEFAULT': 'The search service is having problems :-('
 };
 
-var Geocoder = L.Control.extend({
+export default L.Control.extend({
 
   version: VERSION,
 
@@ -1067,5 +1067,3 @@ var Geocoder = L.Control.extend({
     }
   }
 });
-
-module.exports = Geocoder;

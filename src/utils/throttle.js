@@ -1,7 +1,7 @@
 /*
  * throttle Utility function (borrowed from underscore)
  */
-function throttle (func, wait, options) {
+export default function throttle (func, wait, options) {
   var context, args, result;
   var timeout = null;
   var previous = 0;
@@ -32,5 +32,3 @@ function throttle (func, wait, options) {
     return result;
   };
 }
-
-module.exports = throttle;
