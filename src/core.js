@@ -14,6 +14,7 @@ import 'console-polyfill';
 
 import L from 'leaflet';
 import { Control } from 'leaflet/src/control/Control';
+import { Evented } from 'leaflet/src/core/Events';
 import * as DomEvent from 'leaflet/src/dom/DomEvent';
 import { setOptions, isArray } from 'leaflet/src/core/Util'
 import * as DomUtil from 'leaflet/src/dom/DomUtil';
@@ -52,6 +53,8 @@ var TEXT_STRINGS = {
 export default Control.extend({
 
   version: VERSION,
+
+  includes: Evented.prototype,
 
   options: {
     position: 'topleft',
