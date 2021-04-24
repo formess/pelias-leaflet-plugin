@@ -16,6 +16,7 @@ import L from 'leaflet';
 import { Control } from 'leaflet/src/control/Control';
 import * as DomEvent from 'leaflet/src/dom/DomEvent';
 import { setOptions, isArray } from 'leaflet/src/core/Util'
+import * as DomUtil from 'leaflet/src/dom/DomUtil';
 
 import corslite  from '@mapbox/corslite';
 
@@ -146,7 +147,7 @@ export default Control.extend({
    */
   reset: function () {
     this._input.value = '';
-    L.DomUtil.addClass(this._reset, 'leaflet-pelias-hidden');
+    DomUtil.addClass(this._reset, 'leaflet-pelias-hidden');
     this.removeMarkers();
     this.clearResults();
     this.fire('reset');
@@ -353,7 +354,7 @@ export default Control.extend({
   callPelias: function (endpoint, params, type) {
     params = this.getParams(params);
 
-    L.DomUtil.addClass(this._search, 'leaflet-pelias-loading');
+    DomUtil.addClass(this._search, 'leaflet-pelias-loading');
 
     // Track when the request began
     var reqStartedAt = new Date().getTime();
@@ -362,7 +363,7 @@ export default Control.extend({
     var url = endpoint + '?' + paramString;
     var self = this; // IE8 cannot .bind(this) without a polyfill.
     function handleResponse (err, response) {
-      L.DomUtil.removeClass(self._search, 'leaflet-pelias-loading');
+      DomUtil.removeClass(self._search, 'leaflet-pelias-loading');
       var results;
 
       try {
@@ -523,11 +524,11 @@ export default Control.extend({
     // manage result box height
     resultsContainer.style.maxHeight = (this._map.getSize().y - resultsContainer.offsetTop - this._container.offsetTop - RESULTS_HEIGHT_MARGIN) + 'px';
 
-    var list = L.DomUtil.create('ul', 'leaflet-pelias-list', resultsContainer);
+    var list = DomUtil.create('ul', 'leaflet-pelias-list', resultsContainer);
 
     for (var i = 0, j = features.length; i < j; i++) {
       var feature = features[i];
-      var resultItem = L.DomUtil.create('li', 'leaflet-pelias-result', list);
+      var resultItem = DomUtil.create('li', 'leaflet-pelias-result', list);
 
       resultItem.feature = feature;
       resultItem.layer = feature.properties.layer;
@@ -541,13 +542,13 @@ export default Control.extend({
       if (icon) {
         // Point or polygon icon
         // May be a class or an image path
-        var layerIconContainer = L.DomUtil.create('span', 'leaflet-pelias-layer-icon-container', resultItem);
+        var layerIconContainer = DomUtil.create('span', 'leaflet-pelias-layer-icon-container', resultItem);
         var layerIcon;
 
         if (icon.type === 'class') {
-          layerIcon = L.DomUtil.create('div', 'leaflet-pelias-layer-icon ' + icon.value, layerIconContainer);
+          layerIcon = DomUtil.create('div', 'leaflet-pelias-layer-icon ' + icon.value, layerIconContainer);
         } else {
-          layerIcon = L.DomUtil.create('img', 'leaflet-pelias-layer-icon', layerIconContainer);
+          layerIcon = DomUtil.create('img', 'leaflet-pelias-layer-icon', layerIconContainer);
           layerIcon.src = icon.value;
         }
 
@@ -565,7 +566,7 @@ export default Control.extend({
     resultsContainer.innerHTML = '';
     resultsContainer.style.display = 'block';
 
-    var messageEl = L.DomUtil.create('div', 'leaflet-pelias-message', resultsContainer);
+    var messageEl = DomUtil.create('div', 'leaflet-pelias-message', resultsContainer);
 
     // Set text. This is the most cross-browser compatible method
     // and avoids the issues we have detecting either innerText vs textContent
@@ -654,7 +655,7 @@ export default Control.extend({
    */
   focus: function () {
     // If not expanded, expand this first
-    if (!L.DomUtil.hasClass(this._container, 'leaflet-pelias-expanded')) {
+    if (!DomUtil.hasClass(this._container, 'leaflet-pelias-expanded')) {
       this.expand();
     }
     this._input.focus();
@@ -671,7 +672,7 @@ export default Control.extend({
     this._input.blur();
     this.clearResults();
     if (this._input.value === '' && this._results.style.display !== 'none') {
-      L.DomUtil.addClass(this._reset, 'leaflet-pelias-hidden');
+      DomUtil.addClass(this._reset, 'leaflet-pelias-hidden');
       if (!this.options.expanded) {
         this.collapse();
       }
@@ -694,7 +695,7 @@ export default Control.extend({
   },
 
   expand: function () {
-    L.DomUtil.addClass(this._container, 'leaflet-pelias-expanded');
+    DomUtil.addClass(this._container, 'leaflet-pelias-expanded');
     this.setFullWidth();
     this.fire('expand');
   },
@@ -703,7 +704,7 @@ export default Control.extend({
     // 'expanded' options check happens outside of this function now
     // So it's now possible for a script to force-collapse a geocoder
     // that otherwise defaults to the always-expanded state
-    L.DomUtil.removeClass(this._container, 'leaflet-pelias-expanded');
+    DomUtil.removeClass(this._container, 'leaflet-pelias-expanded');
     this._input.blur();
     this.clearFullWidth();
     this.clearResults();
@@ -736,12 +737,12 @@ export default Control.extend({
   },
 
   onAdd: function (map) {
-    var container = L.DomUtil.create('div',
+    var container = DomUtil.create('div',
         'leaflet-pelias-control leaflet-bar leaflet-control');
 
     this._body = document.body || document.getElementsByTagName('body')[0];
     this._container = container;
-    this._input = L.DomUtil.create('input', 'leaflet-pelias-input', this._container);
+    this._input = DomUtil.create('input', 'leaflet-pelias-input', this._container);
     this._input.spellcheck = false;
 
     // Forwards focus and blur events from input to geocoder
@@ -763,12 +764,12 @@ export default Control.extend({
       this._input.placeholder = this.options.textStrings['INPUT_PLACEHOLDER'];
     }
 
-    this._search = L.DomUtil.create('a', 'leaflet-pelias-search-icon', this._container);
-    this._reset = L.DomUtil.create('div', 'leaflet-pelias-close leaflet-pelias-hidden', this._container);
+    this._search = DomUtil.create('a', 'leaflet-pelias-search-icon', this._container);
+    this._reset = DomUtil.create('div', 'leaflet-pelias-close leaflet-pelias-hidden', this._container);
     this._reset.innerHTML = '×';
     this._reset.title = this.options.textStrings['RESET_TITLE_ATTRIBUTE'];
 
-    this._results = L.DomUtil.create('div', 'leaflet-pelias-results leaflet-bar', this._container);
+    this._results = DomUtil.create('div', 'leaflet-pelias-results leaflet-bar', this._container);
 
     if (this.options.expanded) {
       this.expand();
@@ -796,19 +797,19 @@ export default Control.extend({
         DomEvent.stopPropagation(e);
 
         // Toggles expanded state of container on click of search icon
-        if (L.DomUtil.hasClass(this._container, 'leaflet-pelias-expanded')) {
+        if (DomUtil.hasClass(this._container, 'leaflet-pelias-expanded')) {
           // If expanded option is true, just focus the input
           if (this.options.expanded === true) {
             this._input.focus();
           } else {
             // Otherwise, toggle to hidden state
-            L.DomUtil.addClass(this._reset, 'leaflet-pelias-hidden');
+            DomUtil.addClass(this._reset, 'leaflet-pelias-hidden');
             this.collapse();
           }
         } else {
           // If not currently expanded, clicking here always expands it
           if (this._input.value.length > 0) {
-            L.DomUtil.removeClass(this._reset, 'leaflet-pelias-hidden');
+            DomUtil.removeClass(this._reset, 'leaflet-pelias-hidden');
           }
           this.expand();
           this._input.focus();
@@ -878,13 +879,13 @@ export default Control.extend({
             }
 
             if (selected) {
-              L.DomUtil.removeClass(selected, 'leaflet-pelias-selected');
+              DomUtil.removeClass(selected, 'leaflet-pelias-selected');
             }
 
             var previousItem = list[selectedPosition - 1];
             var highlighted = (selected && previousItem) ? previousItem : list[list.length - 1]; // eslint-disable-line no-redeclare
 
-            L.DomUtil.addClass(highlighted, 'leaflet-pelias-selected');
+            DomUtil.addClass(highlighted, 'leaflet-pelias-selected');
             scrollSelectedResultIntoView(highlighted);
             panToPoint(highlighted, this.options);
             this._input.value = highlighted.textContent || highlighted.innerText;
@@ -904,13 +905,13 @@ export default Control.extend({
             }
 
             if (selected) {
-              L.DomUtil.removeClass(selected, 'leaflet-pelias-selected');
+              DomUtil.removeClass(selected, 'leaflet-pelias-selected');
             }
 
             var nextItem = list[selectedPosition + 1];
             var highlighted = (selected && nextItem) ? nextItem : list[0]; // eslint-disable-line no-redeclare
 
-            L.DomUtil.addClass(highlighted, 'leaflet-pelias-selected');
+            DomUtil.addClass(highlighted, 'leaflet-pelias-selected');
             scrollSelectedResultIntoView(highlighted);
             panToPoint(highlighted, this.options);
             this._input.value = highlighted.textContent || highlighted.innerText;
@@ -932,9 +933,9 @@ export default Control.extend({
         var text = (e.target || e.srcElement).value;
 
         if (text.length > 0) {
-          L.DomUtil.removeClass(this._reset, 'leaflet-pelias-hidden');
+          DomUtil.removeClass(this._reset, 'leaflet-pelias-hidden');
         } else {
-          L.DomUtil.addClass(this._reset, 'leaflet-pelias-hidden');
+          DomUtil.addClass(this._reset, 'leaflet-pelias-hidden');
         }
 
         // Ignore all further action if the keycode matches an arrow
@@ -951,14 +952,14 @@ export default Control.extend({
           if (text.length === 0 || this._results.style.display === 'none') {
             this._input.blur();
 
-            if (!this.options.expanded && L.DomUtil.hasClass(this._container, 'leaflet-pelias-expanded')) {
+            if (!this.options.expanded && DomUtil.hasClass(this._container, 'leaflet-pelias-expanded')) {
               this.collapse();
             }
           }
 
           // Clears results
           this.clearResults(true);
-          L.DomUtil.removeClass(this._search, 'leaflet-pelias-loading');
+          DomUtil.removeClass(this._search, 'leaflet-pelias-loading');
           return;
         }
 
@@ -978,12 +979,12 @@ export default Control.extend({
 
         var _selected = this._results.querySelectorAll('.leaflet-pelias-selected')[0];
         if (_selected) {
-          L.DomUtil.removeClass(_selected, 'leaflet-pelias-selected');
+          DomUtil.removeClass(_selected, 'leaflet-pelias-selected');
         }
 
         var selected = e.target || e.srcElement; /* IE8 */
         var findParent = function () {
-          if (!L.DomUtil.hasClass(selected, 'leaflet-pelias-result')) {
+          if (!DomUtil.hasClass(selected, 'leaflet-pelias-result')) {
             selected = selected.parentElement;
             if (selected) {
               findParent();
@@ -1000,7 +1001,7 @@ export default Control.extend({
         // If nothing is selected, (e.g. it's a message, not a result),
         // do nothing.
         if (selected) {
-          L.DomUtil.addClass(selected, 'leaflet-pelias-selected');
+          DomUtil.addClass(selected, 'leaflet-pelias-selected');
           this.setSelectedResult(selected, e);
         }
       }, this);
@@ -1008,7 +1009,7 @@ export default Control.extend({
     // Recalculate width of the input bar when window resizes
     if (this.options.fullWidth) {
       DomEvent.on(window, 'resize', function (e) {
-        if (L.DomUtil.hasClass(this._container, 'leaflet-pelias-expanded')) {
+        if (DomUtil.hasClass(this._container, 'leaflet-pelias-expanded')) {
           this.setFullWidth();
         }
       }, this);
@@ -1032,7 +1033,7 @@ export default Control.extend({
     // Only collapse if the input is clear, and is currently expanded.
     // Disabled if expanded is set to true
     if (!this.options.expanded) {
-      if (!this._input.value && L.DomUtil.hasClass(this._container, 'leaflet-pelias-expanded')) {
+      if (!this._input.value && DomUtil.hasClass(this._container, 'leaflet-pelias-expanded')) {
         this.collapse();
       }
     }
