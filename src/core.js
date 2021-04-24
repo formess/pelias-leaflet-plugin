@@ -21,6 +21,7 @@ import * as DomUtil from 'leaflet/src/dom/DomUtil';
 import LatLng from 'leaflet/src/geo/LatLng';
 import LatLngBounds from 'leaflet/src/geo/LatLngBounds';
 import { GeoJSON } from 'leaflet/src/layer/GeoJSON';
+import { Marker } from 'leaflet/src/layer/marker/Marker.js';
 
 import corslite  from '@mapbox/corslite';
 
@@ -595,7 +596,7 @@ export default Control.extend({
     var markerOptions = (typeof this.options.markers === 'object') ? this.options.markers : {};
 
     if (this.options.markers) {
-      var marker = new L.marker(latlng, markerOptions).bindPopup(text); // eslint-disable-line new-cap
+      var marker = (new Marker(latlng, markerOptions)).bindPopup(text); // eslint-disable-line new-cap
       this._map.addLayer(marker);
       this.markers.push(marker);
       marker.openPopup();
