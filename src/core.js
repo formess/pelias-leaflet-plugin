@@ -13,6 +13,7 @@
 import 'console-polyfill';
 
 import L from 'leaflet';
+import { Control } from 'leaflet/src/control/Control';
 import corslite  from '@mapbox/corslite';
 
 // Import utility functions. TODO: switch to Lodash (no IE8 support) in v2
@@ -44,7 +45,7 @@ var TEXT_STRINGS = {
   'ERROR_DEFAULT': 'The search service is having problems :-('
 };
 
-export default L.Control.extend({
+export default Control.extend({
 
   version: VERSION,
 
