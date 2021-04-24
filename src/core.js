@@ -18,6 +18,7 @@ import { Evented } from 'leaflet/src/core/Events';
 import * as DomEvent from 'leaflet/src/dom/DomEvent';
 import { setOptions, isArray } from 'leaflet/src/core/Util'
 import * as DomUtil from 'leaflet/src/dom/DomUtil';
+import LatLngBounds from 'leaflet/src/geo/LatLngBounds';
 
 import corslite  from '@mapbox/corslite';
 
@@ -191,7 +192,7 @@ export default Control.extend({
     } else if (typeof bounds === 'object' && bounds.isValid && bounds.isValid()) {
       params = makeParamsFromLeaflet(params, bounds);
     } else if (isArray(bounds)) {
-      var latLngBounds = L.latLngBounds(bounds);
+      var latLngBounds = new LatLngBounds(bounds);
       if (latLngBounds.isValid && latLngBounds.isValid()) {
         params = makeParamsFromLeaflet(params, latLngBounds);
       }
