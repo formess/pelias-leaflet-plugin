@@ -22,6 +22,7 @@ import LatLng from 'leaflet/src/geo/LatLng';
 import LatLngBounds from 'leaflet/src/geo/LatLngBounds';
 import { GeoJSON, coordsToLatLng } from 'leaflet/src/layer/GeoJSON';
 import { Marker } from 'leaflet/src/layer/marker/Marker.js';
+import { Popup } from 'leaflet/src/layer/Popup.js';
 import { touch as hasTouch } from 'leaflet/src/core/Browser.js';
 
 import corslite  from '@mapbox/corslite';
