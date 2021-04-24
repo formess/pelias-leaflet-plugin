@@ -22,6 +22,7 @@ import LatLng from 'leaflet/src/geo/LatLng';
 import LatLngBounds from 'leaflet/src/geo/LatLngBounds';
 import { GeoJSON } from 'leaflet/src/layer/GeoJSON';
 import { Marker } from 'leaflet/src/layer/marker/Marker.js';
+import { touch as hasTouch } from 'leaflet/src/core/Browser.js';
 
 import corslite  from '@mapbox/corslite';
 
@@ -726,7 +727,7 @@ export default Control.extend({
       // Always ask map to invalidate and recalculate size first
       this._map.invalidateSize();
       var mapWidth = this._map.getSize().x;
-      var touchAdjustment = L.Browser.touch ? FULL_WIDTH_TOUCH_ADJUSTED_MARGIN : 0;
+      var touchAdjustment = hasTouch ? FULL_WIDTH_TOUCH_ADJUSTED_MARGIN : 0;
       var width = mapWidth - FULL_WIDTH_MARGIN - touchAdjustment;
       if (typeof this.options.fullWidth === 'number' && mapWidth >= window.parseInt(this.options.fullWidth, 10)) {
         this.clearFullWidth();
