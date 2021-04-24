@@ -14,6 +14,8 @@ import 'console-polyfill';
 
 import L from 'leaflet';
 import { Control } from 'leaflet/src/control/Control';
+import * as DomEvent from 'leaflet/src/dom/DomEvent';
+
 import corslite  from '@mapbox/corslite';
 
 // Import utility functions. TODO: switch to Lodash (no IE8 support) in v2
@@ -747,11 +749,11 @@ export default Control.extend({
     this._input.spellcheck = false;
 
     // Forwards focus and blur events from input to geocoder
-    L.DomEvent.addListener(this._input, 'focus', function (e) {
+    DomEvent.addListener(this._input, 'focus', function (e) {
       this.fire('focus', { originalEvent: e });
     }, this);
 
-    L.DomEvent.addListener(this._input, 'blur', function (e) {
+    DomEvent.addListener(this._input, 'blur', function (e) {
       this.fire('blur', { originalEvent: e });
     }, this);
 
@@ -776,7 +778,7 @@ export default Control.extend({
       this.expand();
     }
 
-    L.DomEvent
+    DomEvent
       .on(this._container, 'click', function (e) {
         // Child elements with 'click' listeners should call
         // stopPropagation() to prevent that event from bubbling to
@@ -795,7 +797,7 @@ export default Control.extend({
         this.blur();
       }, this)
       .on(this._search, 'click', function (e) {
-        L.DomEvent.stopPropagation(e);
+        DomEvent.stopPropagation(e);
 
         // Toggles expanded state of container on click of search icon
         if (L.DomUtil.hasClass(this._container, 'leaflet-pelias-expanded')) {
@@ -819,7 +821,7 @@ export default Control.extend({
       .on(this._reset, 'click', function (e) {
         this.reset();
         this._input.focus();
-        L.DomEvent.stopPropagation(e);
+        DomEvent.stopPropagation(e);
       }, this)
       .on(this._input, 'keydown', function (e) {
         var list = this._results.querySelectorAll('.leaflet-pelias-result');
@@ -870,7 +872,7 @@ export default Control.extend({
               var text = (e.target || e.srcElement).value;
               this.search(text);
             }
-            L.DomEvent.preventDefault(e);
+            DomEvent.preventDefault(e);
             break;
           // 38 = up arrow
           case 38:
@@ -896,7 +898,7 @@ export default Control.extend({
               feature: highlighted.feature
             });
 
-            L.DomEvent.preventDefault(e);
+            DomEvent.preventDefault(e);
             break;
           // 40 = down arrow
           case 40:
@@ -922,7 +924,7 @@ export default Control.extend({
               feature: highlighted.feature
             });
 
-            L.DomEvent.preventDefault(e);
+            DomEvent.preventDefault(e);
             break;
           // all other keys
           default:
@@ -975,8 +977,8 @@ export default Control.extend({
         }
       }, this)
       .on(this._results, 'click', function (e) {
-        L.DomEvent.preventDefault(e);
-        L.DomEvent.stopPropagation(e);
+        DomEvent.preventDefault(e);
+        DomEvent.stopPropagation(e);
 
         var _selected = this._results.querySelectorAll('.leaflet-pelias-selected')[0];
         if (_selected) {
@@ -1009,19 +1011,19 @@ export default Control.extend({
 
     // Recalculate width of the input bar when window resizes
     if (this.options.fullWidth) {
-      L.DomEvent.on(window, 'resize', function (e) {
+      DomEvent.on(window, 'resize', function (e) {
         if (L.DomUtil.hasClass(this._container, 'leaflet-pelias-expanded')) {
           this.setFullWidth();
         }
       }, this);
     }
 
-    L.DomEvent.on(this._results, 'mouseover', this._disableMapScrollWheelZoom, this);
-    L.DomEvent.on(this._results, 'mouseout', this._enableMapScrollWheelZoom, this);
-    L.DomEvent.on(this._map, 'mousedown', this._onMapInteraction, this);
-    L.DomEvent.on(this._map, 'touchstart', this._onMapInteraction, this);
+    DomEvent.on(this._results, 'mouseover', this._disableMapScrollWheelZoom, this);
+    DomEvent.on(this._results, 'mouseout', this._enableMapScrollWheelZoom, this);
+    DomEvent.on(this._map, 'mousedown', this._onMapInteraction, this);
+    DomEvent.on(this._map, 'touchstart', this._onMapInteraction, this);
 
-    L.DomEvent.disableClickPropagation(this._container);
+    DomEvent.disableClickPropagation(this._container);
     if (map.attributionControl) {
       map.attributionControl.addAttribution(this.options.attribution);
     }
