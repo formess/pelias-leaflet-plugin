@@ -15,6 +15,7 @@ import 'console-polyfill';
 import L from 'leaflet';
 import { Control } from 'leaflet/src/control/Control';
 import * as DomEvent from 'leaflet/src/dom/DomEvent';
+import { setOptions, isArray } from 'leaflet/src/core/Util'
 
 import corslite  from '@mapbox/corslite';
 
@@ -126,7 +127,7 @@ export default Control.extend({
     }
 
     // Now merge user-specified options
-    L.Util.setOptions(this, options);
+    setOptions(this, options);
     this.markers = [];
 
     // Deprecation warnings for Mapzen hosted service.
@@ -185,7 +186,7 @@ export default Control.extend({
       params = makeParamsFromLeaflet(params, bounds);
     } else if (typeof bounds === 'object' && bounds.isValid && bounds.isValid()) {
       params = makeParamsFromLeaflet(params, bounds);
-    } else if (L.Util.isArray(bounds)) {
+    } else if (isArray(bounds)) {
       var latLngBounds = L.latLngBounds(bounds);
       if (latLngBounds.isValid && latLngBounds.isValid()) {
         params = makeParamsFromLeaflet(params, latLngBounds);
