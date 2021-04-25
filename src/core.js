@@ -12,7 +12,6 @@
 // when the developer console is not open.
 import 'console-polyfill';
 
-import L from 'leaflet';
 import { Control } from 'leaflet/src/control/Control';
 import { Evented } from 'leaflet/src/core/Events';
 import * as DomEvent from 'leaflet/src/dom/DomEvent';
