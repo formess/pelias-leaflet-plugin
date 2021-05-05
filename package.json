@@ -12,6 +12,7 @@
     "build-css": "npm run bundle-css && npm run minify-css",
     "bundle-js": "browserify -t browserify-shim -p browserify-derequire -o dist/leaflet-geocoder-mapzen.js src/index.js",
     "bundle-css": "cp src/*.css dist/",
+    "postinstall": "npm run bundle-css",
     "minify-js": "uglifyjs dist/leaflet-geocoder-mapzen.js -o dist/leaflet-geocoder-mapzen.min.js",
     "minify-css": "cleancss -o dist/leaflet-geocoder-mapzen.min.css dist/leaflet-geocoder-mapzen.css",
     "prepublish": "npm run build",
